@@ -1,4 +1,4 @@
-package com.manager.webhook.bean;
+package com.manager.webhook.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -6,7 +6,7 @@ import org.springframework.web.client.RestClient;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Configuration
-public class BeanClient {
+public class BeanAppConfig {
 
     @Bean
     public RestClient restClient() {

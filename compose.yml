@@ -1,0 +1,46 @@
+services:
+  webhook-postgres:
+    image: postgres:18-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: webhookDB
+    ports:
+      - "5432:5432"
+    volumes:
+      - webhook-postgres-data:/var/lib/postgresql/data
+  libraryDB:
+    image: gvenzl/oracle-free
+    container_name: oracleDB
+    ports:
+      - "1521:1521"
+    environment:
+      ORACLE_USER: system
+      ORACLE_PASSWORD: password
+    volumes:
+      - oracle-data:/opt/oracle/oradat
+
+  manager:
+    build: ./webhook-manager
+    ports:
+      - "9000:9000"
+    depends_on:
+      - webhook-postgres
+
+  user:
+    build: ./user
+    ports:
+      - "8100:8100"
+
+  library:
+    build: ./library
+    ports:
+      - "8080:8080"
+    depends_on:
+      - libraryDB
+
+
+volumes:
+  webhook-postgres-data:
+  oracle-data:

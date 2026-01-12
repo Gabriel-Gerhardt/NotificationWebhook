@@ -21,13 +21,11 @@ import static org.springframework.web.servlet.function.RequestPredicates.content
 public class WebhookFacade {
     private final UrlService urlService;
     private final EventService eventService;
-    private final ObjectMapper objectMapper;
     public RestClient restClient;
-    public WebhookFacade(UrlService urlService, EventService eventService, RestClient restClient, ObjectMapper objectMapper) {
+    public WebhookFacade(UrlService urlService, EventService eventService, RestClient restClient) {
         this.urlService = urlService;
         this.eventService = eventService;
         this.restClient = restClient;
-        this.objectMapper = objectMapper;
     }
 
     public void saveEvent(EventModel event) {

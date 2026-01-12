@@ -1,5 +1,6 @@
 services:
-  user:
+  backend:
     build: .
+    container_name: user
     ports:
       - "8100:8100"

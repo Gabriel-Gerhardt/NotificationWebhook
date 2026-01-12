@@ -1,6 +1,5 @@
 package com.manager.webhook.service;
 
-import com.manager.webhook.contract.UrlServiceContract;
 import com.manager.webhook.entities.Event;
 import com.manager.webhook.exception.EventNotFoundException;
 import com.manager.webhook.mapper.EventMapper;
@@ -12,7 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class EventService implements UrlServiceContract {
+public class EventService {
     private final EventRepo eventRepo;
     public EventService(EventRepo eventRepo){
         this.eventRepo = eventRepo;

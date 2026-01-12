@@ -1,7 +1,5 @@
 package com.project.library.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.library.contract.BookServiceContract;
 import com.project.library.utils.strategy.bookStrategy.comparator.BookComparatorByAuthor;
 import com.project.library.utils.strategy.bookStrategy.comparator.BookComparatorByPublishYear;
@@ -23,12 +21,10 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 @Service
 public class BookService implements BookServiceContract {
     private final BookRepo bookRepo;
-    private final ObjectMapper objectMapper;
-    private final String PAYLOAD_URL = "http://localhost:9000/webhook/payload";
+    private final String PAYLOAD_URL = "http://manager:9000/webhook/payload";
     private final RestClient restClient;
-    public BookService (BookRepo bookRepo, ObjectMapper objectMapper, RestClient restClient) {
+    public BookService (BookRepo bookRepo, RestClient restClient) {
         this.bookRepo = bookRepo;
-        this.objectMapper = objectMapper;
         this.restClient = restClient;
     }
 

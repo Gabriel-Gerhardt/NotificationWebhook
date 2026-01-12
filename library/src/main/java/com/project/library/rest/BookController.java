@@ -1,4 +1,4 @@
-package com.project.library.view.controller;
+package com.project.library.rest;
 
 
 import com.project.library.entities.Book;
