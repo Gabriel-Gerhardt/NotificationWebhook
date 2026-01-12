@@ -1,5 +1,6 @@
 package com.project.library.repo;
 
+import com.project.library.entities.Author;
 import com.project.library.entities.Book;
 import com.project.library.repo.dbConfig.DB;
 import org.springframework.stereotype.Repository;
@@ -20,12 +21,11 @@ public class BookRepo {
     public void insertBook(Book book) {
         try (Connection conn = db.dbConnection();
              PreparedStatement st = conn.prepareStatement(
-                     "INSERT INTO books (id, title, author, publish_year) VALUES (?, ?, ?, ?)")) {
+                     "INSERT INTO books (title, author, publish_year) VALUES (?, ?, ?)")) {
 
-            st.setLong(1, book.getId());
-            st.setString(2, book.getTitle());
-            st.setString(3, book.getAuthorName());
-            st.setInt(4, book.getPublishYear());
+            st.setString(1, book.getTitle());
+            st.setLong(2, book.getAuthor().getId());
+            st.setInt(3, book.getPublishYear());
             st.executeUpdate();
 
         } catch (SQLException e) {
@@ -36,13 +36,12 @@ public class BookRepo {
     public void insertBookList(List<Book> listBook) {
         try (Connection conn = db.dbConnection();
              PreparedStatement st = conn.prepareStatement(
-                     "INSERT INTO books (id, title, author, publish_year) VALUES (?, ?, ?, ?)")) {
+                     "INSERT INTO books (title, author, publish_year) VALUES (?, ?, ?)")) {
 
             for (Book book : listBook) {
-                st.setLong(1, book.getId());
-                st.setString(2, book.getTitle());
-                st.setString(3, book.getAuthorName());
-                st.setInt(4, book.getPublishYear());
+                st.setString(1, book.getTitle());
+                st.setLong(2, book.getAuthor().getId());
+                st.setInt(3, book.getPublishYear());
                 st.addBatch();
             }
             st.executeBatch();
@@ -57,12 +56,14 @@ public class BookRepo {
         try (Connection conn = db.dbConnection();
              PreparedStatement st = conn.prepareStatement("SELECT * FROM books");
              ResultSet rs = st.executeQuery()) {
+            Author author = new Author();
+            author.setId(rs.getLong("author"));
 
             while (rs.next()) {
                 lista.add(new Book(
-                        rs.getInt("id"),
+                        rs.getLong("id"),
                         rs.getString("title"),
-                        rs.getString("author"),
+                        author,
                         rs.getInt("publish_year")
                 ));
             }
@@ -81,9 +82,9 @@ public class BookRepo {
             try (ResultSet rs = st.executeQuery()) {
                 if (rs.next()) {
                     return new Book(
-                            rs.getInt("id"),
+                            rs.getLong("id"),
                             rs.getString("title"),
-                            rs.getString("author"),
+                            (Author) rs.getObject("author"),
                             rs.getInt("publish_year")
                     );
                 }
@@ -101,7 +102,7 @@ public class BookRepo {
                      "UPDATE books SET title = ?, author = ?, publish_year = ? WHERE id = ?")) {
 
             st.setString(1, book.getTitle());
-            st.setString(2, book.getAuthorName());
+            st.setLong(2, book.getAuthor().getId());
             st.setInt(3, book.getPublishYear());
             st.setLong(4, id);
             st.executeUpdate();
