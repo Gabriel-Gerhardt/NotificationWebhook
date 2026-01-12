@@ -10,6 +10,12 @@ services:
       - "5432:5432"
     volumes:
       - webhook-postgres-data:/var/lib/postgresql/data
+  manager:
+    build: .
+    ports:
+      - "9000:9000"
+    depends_on:
+      - webhook-postgres
 
 volumes:
   webhook-postgres-data:
