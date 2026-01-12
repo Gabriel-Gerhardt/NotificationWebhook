@@ -8,9 +8,12 @@ COPY settings.gradle .
 COPY gradlew .
 COPY gradle/wrapper gradle/wrapper
 
-RUN ./gradlew build --no-daemon -xtest
+RUN ./gradlew dependencies --no-daemon
 
 COPY . .
+
+RUN ./gradlew build --no-daemon -xtest
+
 
 EXPOSE 8080
 
