@@ -1,6 +1,7 @@
 package com.project.library.service;
 
 import com.project.library.contract.BookServiceContract;
+import com.project.library.utils.exception.PushPayloadException;
 import com.project.library.utils.strategy.bookStrategy.comparator.BookComparatorByAuthor;
 import com.project.library.utils.strategy.bookStrategy.comparator.BookComparatorByPublishYear;
 import com.project.library.utils.strategy.bookStrategy.comparator.BookComparatorByTitle;
@@ -37,19 +38,11 @@ public class BookService implements BookServiceContract {
 
     @Override
     public void insertBook (Book book) {
-        Map<String, Object> body = new HashMap<>();
-        body.put("payload", book);
-        body.put("event", "create_book");
 
-            //assertBookDoesNotExist(book);
-            //bookRepo.insertBook(book);
-            restClient.post()
-                    .uri(PAYLOAD_URL)
-                    .contentType(APPLICATION_JSON)
-                    .body(body)
-                    .retrieve()
-                    .toBodilessEntity();
-        System.out.println(body);
+
+        assertBookDoesNotExist(book);
+        bookRepo.insertBook(book);
+        pushNotification(book);
     }
 
     @Override
@@ -58,6 +51,7 @@ public class BookService implements BookServiceContract {
             assertBookDoesNotExist(book);
         }
         bookRepo.insertBookList(books);
+        pushNotification(books);
     }
     private void assertBookDoesNotExist (Book book) {
         if(bookRepo.findById(book.getId())!=null){
@@ -70,5 +64,21 @@ public class BookService implements BookServiceContract {
             case "title" -> new BookComparatorByTitle();
             default -> new BookComparatorByPublishYear();
         };
+    }
+    public void pushNotification(Object payload) {
+        Map<String, Object> body = new HashMap<>();
+        body.put("payload", payload);
+        body.put("event", "create_book_list");
+        try {
+            restClient.post()
+                    .uri(PAYLOAD_URL)
+                    .contentType(APPLICATION_JSON)
+                    .body(body)
+                    .retrieve()
+                    .toBodilessEntity();
+            System.out.println(body);
+        } catch (RuntimeException e){
+            throw new PushPayloadException("Error pushing the payload ", e).toRuntimeException();
+        }
     }
 }
