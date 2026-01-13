@@ -24,7 +24,7 @@ When an event occurs, the service notifies the Webhook Manager with the event da
 
 ---
 
-### Webhook Manager Responsibilities
+### Manager Responsibilities
 
 - Maintain a mapping between **events** and **subscribed client URLs**
 - Receive event notifications from **producer services**
@@ -34,6 +34,13 @@ When an event occurs, the service notifies the Webhook Manager with the event da
 
 ## Diagram
 ![](images/webhookDiagram.png)
+
+## Tech Stack
+- Client(User): SpringBoot, Java 21
+- Server(Library): SpringBoot, Java 25, RestClient
+- Webhook-Manager: SpringBoot, Java 21, RestClient
+- Database: OracleDB, PostgreSQL
+- Containerization: Docker, Docker Compose
 
 
 
@@ -46,9 +53,12 @@ When an event occurs, the service notifies the Webhook Manager with the event da
 - Can be extended to any domain where event-driven notifications are required
 
 ## Set-up
-git clone https://github.com/Gabriel-Gerhardt/Webhook-Manager.git
-cd Webhook-Manager
-docker-compose up
+
+```bash
+    git clone https://github.com/Gabriel-Gerhardt/Webhook-Manager.git
+    cd Webhook-Manager
+    docker-compose up
+```
 
 Access:
 
@@ -57,7 +67,7 @@ Access:
     Manager: http://localhost:9000
 
 ## Contact
-![Linkedin](https://www.linkedin.com/in/gabrihttps://www.linkedin.com/in/gabriel-gerhardt-0a8b852b9/el-gerhardt-0a8b852b9/)
-![Gmail](gabrielgerhardt27@gmail.com)
-![Github](https://github.com/Gabriel-Gerhardt)
+[LinkedIn](https://www.linkedin.com/in/gabriel-gerhardt-0a8b852b9/)
+[Gmail](mailto:gabrielgerhardt27@gmail.com)
+[GitHub](https://github.com/Gabriel-Gerhardt)
 
