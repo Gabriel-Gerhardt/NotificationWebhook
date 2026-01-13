@@ -55,9 +55,9 @@ When an event occurs, the service notifies the Webhook Manager with the event da
 ## Set-up
 
 ```bash
-    git clone https://github.com/Gabriel-Gerhardt/Webhook-Manager.git
-    cd Webhook-Manager
-    docker-compose up
+git clone https://github.com/Gabriel-Gerhardt/Webhook-Manager.git
+cd Webhook-Manager
+docker-compose up
 ```
 
 Access:
