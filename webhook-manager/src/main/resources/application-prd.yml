@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://webhook-postgres:5432/webhookDB
+    username: postgres
+    password: password
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+server:
+  port: 9000

@@ -13,7 +13,7 @@ RUN ./gradlew dependencies --no-daemon
 COPY . .
 
 RUN ./gradlew build --no-daemon -xtest
-
+ENV ENVIRONMENT=prd
 
 EXPOSE 8080
 

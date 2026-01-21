@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: webhook-manager
+  profiles:
+    active: ${ENVIRONMENT:hml}
+  datasource:
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+server:
+  port: 9000
